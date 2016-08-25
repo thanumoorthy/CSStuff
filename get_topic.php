@@ -4,11 +4,11 @@ if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 } 
 
-$query = "SELECT a.topic_id, a.topic_name, b.topic_dt_name, b.topic_dt_id, b.topic_dt_desc, b.topic_icon, EXTRACT( YEAR FROM b.last_updated ) AS last_updated_year, EXTRACT( MONTH FROM b.last_updated ) AS last_updated_month, EXTRACT( DAY FROM b.last_updated ) AS last_updated_date FROM topic a, topic_details b WHERE a.topic_id = b.topic_id ORDER BY a.topic_id, b.topic_dt_id";
+$query = "SELECT a.topic_id, a.topic_name, b.topic_dt_name, b.topic_dt_id, b.topic_dt_desc, b.topic_icon,  DATE_FORMAT(b.last_updated, '%b-%y') as last_updated_year , EXTRACT( DAY FROM b.last_updated ) AS last_updated_date FROM topic a, topic_details b WHERE a.topic_id = b.topic_id ORDER BY a.topic_id, b.topic_dt_id";
 $stmt = $con->prepare($query);
 $stmt->execute();
 
-$stmt->bind_result($topic_id, $topic_name, $topic_dt_name , $topic_dt_id,$topic_dt_desc,$topic_icon,$last_update_year,$last_update_month,$last_update_date);
+$stmt->bind_result($topic_id, $topic_name, $topic_dt_name , $topic_dt_id,$topic_dt_desc,$topic_icon,$last_update_year,$last_update_date);
 
 $topic_list  = array();
 $topic = array();
@@ -25,8 +25,7 @@ while ( $stmt -> fetch()) {
 	   $topic_details['topic_dt_id'] = $topic_dt_id;
  	   $topic_details['topic_dt_desc'] = $topic_dt_desc;
 	   $topic_details['topic_icon'] = $topic_icon;
-	   $topic_details['last_update_year'] = $last_update_year;
-	   $topic_details['last_update_month'] = $last_update_month;
+	   $topic_details['last_update_year'] = $last_update_year;	  
 	   $topic_details['last_update_date'] =  $last_update_date;
 	 }
    
@@ -49,8 +48,7 @@ while ( $stmt -> fetch()) {
 	   $topic_details['topic_dt_id'] = $topic_dt_id;
  	   $topic_details['topic_dt_desc'] = $topic_dt_desc;
 	   $topic_details['topic_icon'] = $topic_icon;
-	   $topic_details['last_update_year'] = $last_update_year;
-	   $topic_details['last_update_month'] = $last_update_month;
+	   $topic_details['last_update_year'] = $last_update_year;	 
 	   $topic_details['last_update_date'] =  $last_update_date;
 	 
    }
@@ -61,8 +59,7 @@ while ( $stmt -> fetch()) {
 	   $topic_details['topic_dt_id'] = $topic_dt_id;
  	   $topic_details['topic_dt_desc'] = $topic_dt_desc;
 	   $topic_details['topic_icon'] = $topic_icon;
-	   $topic_details['last_update_year'] = $last_update_year;
-	   $topic_details['last_update_month'] = $last_update_month;
+	   $topic_details['last_update_year'] = $last_update_year;	  
 	   $topic_details['last_update_date'] =  $last_update_date;
 	   
    }
